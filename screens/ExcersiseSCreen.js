@@ -1,25 +1,29 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState, useEffect  } from "react";
 import axios from 'axios';
 
 const ExcersiseScreen = (navigation) => {
 
-
+  const [data, setData] = useState('');
 
   const getExcersise = (excersise) => {
     // api here
-    let data = '';
+    let dataTemp = '';
     axios.get(`https://wger.de/api/v2/`)
     .then(response => {
-      data = response.data
+      dataTemp = response.data
     })
-    return data
+    setData(dataTemp)
   }
+
+  useEffect(() => {
+    getExcersise();
+  },[]);
 
   return (
     <View>
       <Text>ExcersiseScreen</Text>
-      <Text>{getExcersise()}</Text>
+      <Text>{data}</Text>
     </View>
   );
 };
