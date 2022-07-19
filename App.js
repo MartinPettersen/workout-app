@@ -5,6 +5,8 @@ import test from "./screens/test";
 import HomeScreen from "./screens/HomeScreen";
 import WorkoutScreen from "./screens/WorkoutScreen";
 import AddWorkoutScreen from "./screens/AddWorkoutScreen";
+import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
+
 import WorkoutSelectionScreen from "./screens/WorkoutSelectionScreen";
 import ExcersiseScreen from "./screens/ExcersiseSCreen";
 import { NavigationContainer } from '@react-navigation/native';
@@ -31,6 +33,8 @@ const App = () => {
           <Stack.Screen name="Excersise" component={ExcersiseScreen} />
           <Stack.Screen name="Workout" component={WorkoutScreen} />
           <Stack.Screen name="Add Workout" options={{title: "tester"}} component={AddWorkoutScreen} />
+          <Stack.Screen name="Create Workout" component={CreateWorkoutScreen} />
+          
           <Stack.Screen
             name="WorkoutSelection"
             component={WorkoutSelectionScreen}

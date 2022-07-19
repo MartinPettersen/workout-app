@@ -1,140 +1,178 @@
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import React, { useState, useEffect } from "react";
-import CheckBox from "expo-checkbox";
+import { db } from "../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { Button } from "react-native-web";
 
 const AddWorkoutScreen = (navigation) => {
   const [numberOfWeeks, setNumberOfWeeks] = useState("6");
-  const [mond, setMond] = useState([
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-    {
-      day: false,
-      excersises: [
-        {
-          excersise: "",
-          reps: "",
-          sets: "",
-          previousWeight: "",
-        },
-      ],
-    },
-  ]);
+  const [creator, setCreator] = useState("");
+  const [nameOfWorkout, setNameOfWorkout] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [level, setLevel] = useState("");
+  const [excersises, setExcersises] = useState([]);
+  const [addExcersise, setAddExcersise] = useState(false);
 
-  let weeks = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const [excercise, setExcercise] = useState("");
+  const [sets, setSets] = useState("");
+  const [reps, setReps] = useState("");
 
-  let excersise = {
-    excersise: "",
-    reps: "",
-    sets: "",
-    previousWeight: "",
+  const [excercise2, setExcercise2] = useState({
+    name: "",
+    sets: 0,
+    reps: 0,
+  });
+
+  const submitExcersice = () => {
+    console.log("i rurn");
+    setExcersises([
+      ...excersises,
+      {
+        name: excercise,
+        sets: sets,
+        reps: reps,
+      },
+    ]);
   };
 
-  let day = {
-    nr: "-1",
-    excersises: [],
-  };
-  let workout = {
-    weeks: "",
-    days: "",
-    daylyWorkout: [],
+  const CreateWorkout = () => {
+    const workoutTemplateData = {
+      workoutName: nameOfWorkout,
+      creator: creator,
+      weeks: numberOfWeeks,
+      instructions: instructions,
+      level: level,
+      excersises: excersises,
+    };
+
+    db.collection("WorkoutTemplateCollection")
+      .doc(workoutTemplateData.workoutName)
+      .set(workoutTemplateData, { merge: true })
+      .then(() => {
+        alert("added workout template");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
-  const uppdateState = (copy) => {
-    setMond(copy);
-  };
+  useEffect(() => {
+    console.log("added ann excersize");
+    console.log(excersises);
+  }, [excersises]);
   return (
-    <View style={styles.addWorkoutContainer}>
-      <View style={styles.wrapper}>
-        <Text style={styles.text}>Select number of weeks: </Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder=""
-          defaultValue={numberOfWeeks}
-          onChangeText={(newText) => setNumberOfWeeks(newText)}
-        />
-      </View>
-      <Text style={styles.text}>Select the days in the week</Text>
-      {weeks.map((weekday, index) => (
-        <View style={styles.wrapper} key={weekday}>
-          <Text style={styles.text}>{weekday}</Text>
-          <CheckBox
-            value={mond[index].day}
-            style={styles.text}
-            onValueChange={() => {
-              const copy = [...mond];
-              copy[index].day = !mond[index].day;
-              uppdateState(copy);
-            }}
+    <ScrollView style={styles.blackContainer}>
+      <View style={styles.addWorkoutContainer}>
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>Name of Workout: </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder=""
+            defaultValue={nameOfWorkout}
+            onChangeText={(newText) => setNameOfWorkout(newText)}
           />
-          <Text style={styles.text}>{mond.weekday}</Text>
         </View>
-      ))}
-      <Text style={styles.next}>Next</Text>
-    </View>
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>Creator: </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder=""
+            defaultValue={creator}
+            onChangeText={(newText) => setCreator(newText)}
+          />
+        </View>
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>Select number of weeks: </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder=""
+            defaultValue={numberOfWeeks}
+            onChangeText={(newText) => setNumberOfWeeks(newText)}
+          />
+        </View>
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>Instructions: </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder=""
+            defaultValue={instructions}
+            onChangeText={(newText) => setInstructions(newText)}
+          />
+        </View>
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>Experience Level: </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder=""
+            defaultValue={level}
+            onChangeText={(newText) => setLevel(newText)}
+          />
+        </View>
+
+        <Pressable
+          style={styles.next}
+          onPress={() => setAddExcersise(!addExcersise)}
+        >
+          <Text style={styles.text}>Add New Excercise</Text>
+        </Pressable>
+        {addExcersise ? (
+          <View style={styles.next}>
+            <Text style={styles.text}>New Excercise</Text>
+            <View style={styles.wrapper}>
+              <Text style={styles.text}>Excercise: </Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder=""
+                defaultValue={excercise}
+                onChangeText={(newText) => setExcercise(newText)}
+              />
+            </View>
+            <View style={styles.wrapper}>
+              <Text style={styles.text}>Sets: </Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder=""
+                defaultValue={sets}
+                onChangeText={(newText) => setSets(newText)}
+              />
+            </View>
+            <View style={styles.wrapper}>
+              <Text style={styles.text}>Reps: </Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder=""
+                defaultValue={reps}
+                onChangeText={(newText) => setReps(newText)}
+              />
+            </View>
+            <Pressable style={styles.next} onPress={submitExcersice}>
+              <Text style={styles.text}>Save</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <View></View>
+        )}
+        {excersises.map((exc) => {
+          return (
+            <View style={styles.next}>
+              <Text style={styles.text}>{exc.name}</Text>
+              <Text style={styles.text}>{exc.sets}</Text>
+              <Text style={styles.text}>{exc.reps}</Text>
+            </View>
+          );
+        })}
+        <Pressable style={styles.next} onPress={CreateWorkout}>
+              <Text style={styles.text}>Submit Workout</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -144,6 +182,9 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
+  },
+  blackContainer: {
+    backgroundColor: "black",
   },
   text: {
     color: "white",
