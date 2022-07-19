@@ -6,22 +6,21 @@ import { collection, doc, setDoc } from "firebase/firestore";
 const WorkoutSelectionScreen = (navigation) => {
  const workoutRef = db.collection("WorkoutTemplateCollection");
 
-  console.log(workoutRef.get());
   const [workouts, setWorkouts] = useState([])
 
   const getWorkouts = async(workout) => {
-    console.log("recived workouts: " + workout.workoutName)
     
 
 
        const test = await workoutRef.get();
        test.forEach((te) => {
-         console.log(te.data())
          setWorkouts([
           ...workouts,
           te.data()]);
        })
-       
+       const tet = await test.docs.map(doc => (doc.data()));
+       console.log(tet);
+       setWorkouts(tet);
   }
 
   useEffect(() => {
