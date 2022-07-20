@@ -12,6 +12,7 @@ import ExcersiseScreen from "./screens/ExcersiseSCreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "./screens/LoginScreen";
+import Setup from "./screens/Setup";
 // export const Stack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
           <Stack.Screen name="Workout" component={WorkoutScreen} />
           <Stack.Screen name="Add Workout" options={{title: "tester"}} component={AddWorkoutScreen} />
           <Stack.Screen name="Create Workout" component={CreateWorkoutScreen} />
+          <Stack.Screen name="Setup" component={Setup} />
           
           <Stack.Screen
             name="WorkoutSelection"

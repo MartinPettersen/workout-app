@@ -13,6 +13,7 @@ const WorkoutScreen = (navigation) => {
     axios.get(`https://wger.de/api/v2/exercise/search/?term=${excersise}`)
     .then(response => {
       //console.log(response.data.suggestions);
+
       dataTemp = response.data.suggestions;
     })
     return dataTemp;

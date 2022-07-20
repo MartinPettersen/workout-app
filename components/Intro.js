@@ -26,15 +26,20 @@ const Intro = (props) => {
 
       <Text style={styles.text}>Add workout</Text>
       </Pressable>
+{/*}
       <Pressable onPress={() => props.navigation.navigate("Create Workout")}>
 
       <Text style={styles.text}>Create workout</Text>
       </Pressable>
+  */}
       <Pressable onPress={() => props.navigation.navigate("WorkoutSelection")}>
 
       <Text style={styles.header}>Change workout</Text>
       </Pressable>
+      <Pressable onPress={() => props.navigation.navigate("Setup")}>
 
+      <Text style={styles.header}>Setup</Text>
+      </Pressable>
     </View>
   );
 };
