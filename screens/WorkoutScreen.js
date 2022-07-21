@@ -5,6 +5,7 @@ import * as firebase from "firebase";
 import { db } from "../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import Excercise from "../components/Excercise";
 
 const WorkoutScreen = (navigation) => {
   const user = firebase.auth().currentUser;
@@ -75,6 +76,7 @@ const WorkoutScreen = (navigation) => {
             {currentWorkout.excersises.map((ex, i) =>  {
               return <View key={i}>
                 <Text style={styles.text}>{ex.excercise} {ex.repetitions}/{ex.sets}</Text>
+                <Excercise ex={ex}/>
               </View>
             })}
           </View>

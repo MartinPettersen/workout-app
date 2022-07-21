@@ -34,7 +34,7 @@ const HomeScreen = ({navigation}) => {
       userData, { merge: true}
     )
     .then(() => {
-        alert("added user workout")
+        alert("Start by either selecting or adding a workout")
     })
     .catch((error) => {
       console.error(error.message);
