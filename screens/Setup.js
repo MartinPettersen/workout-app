@@ -22,6 +22,7 @@ const Setup = ({navigation}) => {
 
     const userData = {
       "email": user.email,
+      "active_workout" : "",
       "workouts": [
       ],
     }

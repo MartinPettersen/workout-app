@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { Button } from "react-native-web";
+import { Button } from "react-native";
 
 const AddWorkoutScreen = (navigation) => {
   const [numberOfWeeks, setNumberOfWeeks] = useState("6");

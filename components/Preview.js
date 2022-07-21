@@ -14,8 +14,13 @@ const Preview = (props) => {
 
   const CreateUserWorkout = (user) => {
 
+    if (workouts.includes(props.workout)){
+      console.log("Allready included")
+    }
+    
     const userData = {
       "email": user.email,
+      "active_workout":  props.workout.workoutName,
       "workouts": [ props.workout
       ],
     }
@@ -33,9 +38,13 @@ const Preview = (props) => {
 
   const updateUserWorkout = (user, workouts) => {
 
+    if (workouts.includes(props.workout)){
+      console.log("Allready included")
+    }
 
     const userData = {
       "email": user.email,
+      "active_workout":  props.workout.workoutName,
       "workouts": [ ...workouts, props.workout
       ],
     }
@@ -60,11 +69,11 @@ const Preview = (props) => {
     userExists.get()
     .then((doc) => {    
         if(doc.exists) {
-            console.log("User exists");
-            console.log(doc.data().workouts)
+            // console.log("User exists");
+            // console.log(doc.data().workouts)
             updateUserWorkout(user, doc.data().workouts)
         } else {
-              console.log("User does not exists")
+              // console.log("User does not exists")
               CreateUserWorkout(user);
               console.log("Creating workout")
 
